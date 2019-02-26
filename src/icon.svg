@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="99px" height="99px" viewBox="0 0 99 99" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53 (72520) - https://sketchapp.com -->
+    <title>icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="Oval" fill="#5944B0" cx="49.5" cy="49.5" r="49.5"></circle>
+        <g id="marketo_logo_240x90_web" transform="translate(23.000000, 18.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <polygon id="Path" points="38 0 38 63 54 50.203125 54 8.6953125"></polygon>
+            <polygon id="Path" points="30 48.3211921 17 54 17 5 30 8.89403974"></polygon>
+            <polygon id="Path" points="0 47 9.83606557 44.5917431 10 13.6055046 0 12"></polygon>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,40 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Marketo API plugin for Craft CMS 3.x
+ *
+ * Marketo API Settings.twig
+ *
+ * @author    simplygoodwork
+ * @copyright Copyright (c) 2019 simplygoodwork
+ * @link      http://simplygoodwork.com
+ * @package   MarketoApi
+ * @since     1.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{{ forms.textField({
+    label: 'Host Key',
+    required: true,
+    id: 'hostKey',
+    name: 'hostKey',
+    value: settings['hostKey']})
+}}
+
+{{ forms.textField({
+    label: 'Client ID',
+    required: true,
+    id: 'clientId',
+    name: 'clientId',
+    value: settings['clientId']})
+}}
+
+{{ forms.textField({
+    label: 'Client Secret',
+    required: true,
+    id: 'clientSecret',
+    name: 'clientSecret',
+    value: settings['clientSecret']})
+}}
