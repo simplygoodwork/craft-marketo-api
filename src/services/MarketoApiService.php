@@ -65,7 +65,7 @@ class MarketoApiService extends Component
             );
             $url = "https://" . $host . ".mktorest.com/rest/v1/leads.json?" . http_build_query($urlData);
             $postData = array(
-                'action' => "createOnly",
+                'action' => "createOrUpdate",
                 'lookupField' => "email",
                 'input' => array(
                     $fields
