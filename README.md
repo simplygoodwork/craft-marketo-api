@@ -1,5 +1,5 @@
 # Marketo API plugin for Craft CMS 3.x
-Pass form submissions to Marketo
+Pass form submissions to Marketo (not for public use)
 
 ## Requirements
 This plugin requires Craft CMS 3 or later.
