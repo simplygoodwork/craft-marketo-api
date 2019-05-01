@@ -68,16 +68,31 @@ class DefaultController extends Controller
     public function actionSubmit()
     {
         $this->requirePostRequest();
+        $submittedFrom = Craft::$app->request->getHostInfo().Craft::$app->request->getUrl();
         $fields = Craft::$app->request->getParam('fields');
         $settings = MarketoApi::$plugin->getSettings();
 
-        $result = MarketoApi::$plugin->service->createLead(
-          $settings['hostKey'],
-          $settings['clientId'],
-          $settings['clientSecret'],
-          $fields
-        );
+        $result = MarketoApi::$plugin->service->createLead($fields, $settings['hostKey']);
+        
+        if ($result['success'] == true) {
+            $activity = MarketoApi::$plugin->service->addActivity(
+                $settings['hostKey'],
+                $settings['customActivityTypeId'],
+                $result['leadId'],
+                $submittedFrom,
+                $result['urlData']
+            );
 
-        return $this->redirectToPostedUrl();
+            if ($activity['success'] == true) {
+                return $this->redirectToPostedUrl();
+            } else {
+                // TODO: Set up & show error flash message
+                return $this->redirect($submittedFrom);
+            }
+        } else {
+            // TODO: Set up & show error flash message
+            return $this->redirect($submittedFrom);
+        }
+
     }
 }

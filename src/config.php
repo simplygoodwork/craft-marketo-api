@@ -28,5 +28,5 @@ return [
     "hostKey" => '',
     "clientId" => '',
     "clientSecret" => '',
-
+    "customActivityTypeId" => ''
 ];

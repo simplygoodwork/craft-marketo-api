@@ -37,6 +37,7 @@ class Settings extends Model
     public $hostKey = '';
     public $clientId = '';
     public $clientSecret = '';
+    public $customActivityTypeId = '';
 
     // Public Methods
     // =========================================================================
@@ -54,7 +55,7 @@ class Settings extends Model
     public function rules()
     {
         return [
-            [['hostKey', 'clientId', 'clientSecret'], 'string'],
+            [['hostKey', 'clientId', 'clientSecret', 'customActivityTypeId'], 'string'],
             [['hostKey', 'clientId', 'clientSecret'], 'required'],
         ];
     }

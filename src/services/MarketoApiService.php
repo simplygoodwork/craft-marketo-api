@@ -36,7 +36,13 @@ class MarketoApiService extends Component
     // Public Methods
     // =========================================================================
 
-    public function getToken($host, $clientId, $clientSecret) {
+    public function getToken() {
+
+        $settings = MarketoApi::$plugin->getSettings();
+        $host = $settings['hostKey'];
+        $clientId = $settings['clientId'];
+        $clientSecret = $settings['clientSecret'];
+
         try {
             $guzzleClient = new \GuzzleHttp\Client;
 
@@ -57,12 +63,11 @@ class MarketoApiService extends Component
         return $result;
     }
 
-    public function createLead($host, $clientId, $clientSecret, $fields) {
+    public function createLead($fields, $host) {
         try {
             $guzzleClient = new \GuzzleHttp\Client();
-            $urlData = array(
-              'access_token' => $this->getToken($host, $clientId, $clientSecret)
-            );
+            $urlData = array('access_token' => $this->getToken());
+
             $url = "https://" . $host . ".mktorest.com/rest/v1/leads.json?" . http_build_query($urlData);
             $postData = array(
                 'action' => "createOrUpdate",
@@ -76,10 +81,65 @@ class MarketoApiService extends Component
             $response = $guzzleClient->request('post', $url, [
                 $reqOpts::JSON => $postData
             ]);
+
+            // exit(var_dump(json_decode($response->getBody()->getContents(), true)));
+            $result = json_decode($response->getBody()->getContents(), true);
+
             return [
                 'statusCode' => $response->getStatusCode(),
                 'reason' => $response->getReasonPhrase(),
-                'body' => json_decode($response->getBody(), true)
+                'result' => $result['result'],
+                'success' => $result['success'],
+                'leadId' => $result['result'][0]['id'],
+                'actionStatus' => $result['result'][0]['status'],
+                'urlData' =>  $urlData
+            ];
+
+        } catch (GuzzleRequestException $e){
+            $result = json_decode($e->getResponse()->getBody());
+        }
+
+        return $result;
+
+    }
+
+    public function addActivity($host, $activityTypeId, $leadId, $submittedFrom, $urlData = null) {
+        try {
+            $guzzleClient = new \GuzzleHttp\Client();
+
+            if ($urlData == null) {
+                $urlData = array(
+                    'access_token' => $this->getToken()
+                );
+            }
+            $url = "https://" . $host . ".mktorest.com/rest/v1/activities/external.json?" . http_build_query($urlData);
+
+            $date = new \DateTime('now');
+            $dateTime = $date->format('Y-m-d\TH:i:s');
+
+            $postData = array(
+                'input' => array([
+                    'activityDate' => $dateTime,
+                    'activityTypeId' => $activityTypeId,
+                    'leadId' => $leadId,
+                    'primaryAttributeValue' => $submittedFrom,
+                ])
+            );
+
+            $reqOpts = new \GuzzleHttp\RequestOptions();
+            $response = $guzzleClient->request('post', $url, [
+                $reqOpts::JSON => $postData
+            ]);
+
+            $result = json_decode($response->getBody()->getContents(), true);
+
+            return [
+                'statusCode' => $response->getStatusCode(),
+                'reason' => $response->getReasonPhrase(),
+                'result' => $result['result'],
+                'success' => $result['success'],
+                'activityId' => $result['result'][0]['id'],
+                'actionStatus' => $result['result'][0]['status']
             ];
 
         } catch (GuzzleRequestException $e){
