@@ -2,7 +2,7 @@
   "name": "simplygoodwork/marketo-api",
   "description": "Pass form submissions to Marketo",
   "type": "craft-plugin",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "keywords": [
     "craft",
     "cms",

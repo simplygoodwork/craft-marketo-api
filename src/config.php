@@ -28,5 +28,6 @@ return [
     "hostKey" => '',
     "clientId" => '',
     "clientSecret" => '',
-    "customActivityTypeId" => ''
+    "customActivityTypeId" => '',
+    "mktoCookieFieldName" => ''
 ];

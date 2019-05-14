@@ -38,6 +38,7 @@ class Settings extends Model
     public $clientId = '';
     public $clientSecret = '';
     public $customActivityTypeId = '';
+    public $mktoCookieFieldName = '';
 
     // Public Methods
     // =========================================================================
@@ -55,7 +56,7 @@ class Settings extends Model
     public function rules()
     {
         return [
-            [['hostKey', 'clientId', 'clientSecret', 'customActivityTypeId'], 'string'],
+            [['hostKey', 'clientId', 'clientSecret', 'customActivityTypeId', 'mktoCookieFieldName'], 'string'],
             [['hostKey', 'clientId', 'clientSecret'], 'required'],
         ];
     }

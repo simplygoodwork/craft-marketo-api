@@ -82,6 +82,7 @@ class MarketoApiService extends Component
                 $reqOpts::JSON => $postData
             ]);
 
+            // exit(var_dump($fields, true));
             // exit(var_dump(json_decode($response->getBody()->getContents(), true)));
             $result = json_decode($response->getBody()->getContents(), true);
 
@@ -92,6 +93,40 @@ class MarketoApiService extends Component
                 'success' => $result['success'],
                 'leadId' => $result['result'][0]['id'],
                 'actionStatus' => $result['result'][0]['status'],
+                'urlData' =>  $urlData
+            ];
+
+        } catch (GuzzleRequestException $e){
+            $result = json_decode($e->getResponse()->getBody());
+        }
+
+        return $result;
+
+    }
+
+    public function associateLead($leadId, $cookie, $host) {
+        try {
+            $guzzleClient = new \GuzzleHttp\Client();
+            $urlData = array(
+                'access_token' => $this->getToken(),
+                'cookie' => $cookie
+            );
+
+            $url = "https://" . $host . ".mktorest.com/rest/v1/leads/" . $leadId . "/associate.json?" . http_build_query($urlData);
+
+            $reqOpts = new \GuzzleHttp\RequestOptions();
+            $response = $guzzleClient->request('post', $url, [
+                $reqOpts::JSON => []
+            ]);
+
+            $result = json_decode($response->getBody()->getContents(), true);
+
+            return [
+                'statusCode' => $response->getStatusCode(),
+                'reason' => $response->getReasonPhrase(),
+                'requestId' => $result['requestId'],
+                'result' => $result['result'],
+                'success' => $result['success'],
                 'urlData' =>  $urlData
             ];
 

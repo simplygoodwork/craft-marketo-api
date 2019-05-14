@@ -72,8 +72,12 @@ class DefaultController extends Controller
         $fields = Craft::$app->request->getParam('fields');
         $settings = MarketoApi::$plugin->getSettings();
 
+        if ($settings['mktoCookieFieldName'] && Craft::$app->request->getParam($settings['mktoCookieFieldName']))
+        {
+            $mktoCookie = Craft::$app->request->getParam($settings['mktoCookieFieldName']);
+        }
         $result = MarketoApi::$plugin->service->createLead($fields, $settings['hostKey']);
-        
+
         if ($result['success'] == true) {
             $activity = MarketoApi::$plugin->service->addActivity(
                 $settings['hostKey'],
@@ -82,6 +86,14 @@ class DefaultController extends Controller
                 $submittedFrom,
                 $result['urlData']
             );
+            
+            if ($mktoCookie) {
+                $association = MarketoApi::$plugin->service->associateLead(
+                    $result['leadId'],
+                    $mktoCookie,
+                    $settings['hostKey']
+                );
+            }
 
             if ($activity['success'] == true) {
                 return $this->redirectToPostedUrl();
